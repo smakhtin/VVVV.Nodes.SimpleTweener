@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta27.dtd" >
-   <PATCH nodename="C:\Users\Vadim\Dropbox\VVVV\Invvvversion\plugins\next\ValueSimpleTweener\SimpleTweener (Value) help.v4p" filename="C:\Users\Vadim\Dropbox\VVVV\Invvvversion\plugins\ValueSimpleTweener\SimpleTweener (Value) help.v4p" systemname="SimpleTweener (Value) help">
-   <BOUNDS height="9810" left="3990" top="885" type="Window" width="13680">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta29.2.dtd" >
+   <PATCH nodename="D:\Dropbox\Git Repos\VVVV.Nodes.SimpleTweener\plugins\SimpleTweener (Value) help.v4p" filename="C:\Users\Vadim\Dropbox\VVVV\Invvvversion\plugins\ValueSimpleTweener\SimpleTweener (Value) help.v4p" systemname="SimpleTweener (Value) help">
+   <BOUNDS height="10650" left="2085" top="0" type="Window" width="14385">
    </BOUNDS>
    <NODE componentmode="Hidden" filename="ValueSimpleTweener.csproj" id="0" nodename="SimpleTweener (Value)" systemname="SimpleTweener (Value)">
    <BOUNDS height="270" left="1035" top="1680" type="Node" width="6645">
@@ -25,11 +25,13 @@
    </PIN>
    <PIN pinname="EasingDirection">
    </PIN>
+   <PIN pinname="Tween To Bin Size" slicecount="1" values="2">
+   </PIN>
    </NODE>
    <NODE componentmode="InABox" id="10" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="3915" top="390" type="Node" width="100">
+   <BOUNDS height="100" left="4335" top="300" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="480" left="3915" top="390" type="Box" width="480">
+   <BOUNDS height="480" left="4335" top="300" type="Box" width="480">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -53,9 +55,9 @@
    <LINK dstnodeid="0" dstpinname="Start" srcnodeid="10" srcpinname="Y Output Value">
    </LINK>
    <NODE componentmode="InABox" id="11" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="5010" top="525" type="Node" width="100">
+   <BOUNDS height="100" left="5145" top="570" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="480" left="5010" top="525" type="Box" width="480">
+   <BOUNDS height="480" left="5145" top="570" type="Box" width="480">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -90,12 +92,10 @@
    <PIN pinname="Y Input Value" slicecount="1" values="2">
    </PIN>
    </NODE>
-   <LINK dstnodeid="0" dstpinname="Tween To" srcnodeid="12" srcpinname="Y Output Value">
-   </LINK>
    <NODE componentmode="InABox" id="13" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="1395" top="810" type="Node" width="100">
+   <BOUNDS height="100" left="2685" top="630" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="240" left="1395" top="810" type="Box" width="795">
+   <BOUNDS height="240" left="2685" top="630" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -193,9 +193,9 @@
    <LINK dstnodeid="22" dstpinname="Y Input Value" srcnodeid="0" srcpinname="Finished">
    </LINK>
    <NODE componentmode="InABox" id="24" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="2490" top="1170" type="Node" width="100">
+   <BOUNDS height="100" left="3495" top="1125" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="240" left="2490" top="1170" type="Box" width="795">
+   <BOUNDS height="240" left="3495" top="1125" type="Box" width="795">
    </BOUNDS>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
@@ -213,7 +213,7 @@
    </BOUNDS>
    <PIN pinname="Output Enum" visible="1">
    </PIN>
-   <PIN pinname="Input Enum" slicecount="1" values="Linear">
+   <PIN pinname="Input Enum" slicecount="1" values="Exponential">
    </PIN>
    <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Easing">
    </PIN>
@@ -221,9 +221,9 @@
    <LINK dstnodeid="0" dstpinname="EasingType" srcnodeid="25" srcpinname="Output Enum">
    </LINK>
    <NODE componentmode="InABox" id="26" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="7200" top="2865" type="Node" width="100">
+   <BOUNDS height="100" left="7635" top="3510" type="Node" width="100">
    </BOUNDS>
-   <BOUNDS height="480" left="7200" top="2865" type="Box" width="480">
+   <BOUNDS height="480" left="7635" top="3510" type="Box" width="480">
    </BOUNDS>
    <PIN pinname="Show Value" slicecount="1" values="0">
    </PIN>
@@ -270,180 +270,6 @@
    <PIN pinname="Size" slicecount="1" values="9">
    </PIN>
    </NODE>
-   <NODE componentmode="InABox" id="29" nodename="IOBox (String)" systemname="IOBox (String)">
-   <BOUNDS height="270" left="3075" top="3840" type="Node" width="630">
-   </BOUNDS>
-   <BOUNDS height="1215" left="3075" top="3840" type="Box" width="3975">
-   </BOUNDS>
-   <PIN encoded="0" pinname="Input String" slicecount="1" visible="0" values="|SimpleTweener has &quot;Started&quot; and &quot;Finished&quot; outputs, thats can be used to create sequentional tweens.|">
-   </PIN>
-   <PIN pinname="Output String" visible="0">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Size" slicecount="1" values="9">
-   </PIN>
-   </NODE>
-   <NODE componentmode="Hidden" filename="ValueSimpleTweener.csproj" id="30" nodename="SimpleTweener (Value)" systemname="SimpleTweener (Value)">
-   <BOUNDS height="270" left="1200" top="5145" type="Node" width="1995">
-   </BOUNDS>
-   <PIN pinname="Start" visible="1">
-   </PIN>
-   <PIN pinname="Started" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Finished" visible="1">
-   </PIN>
-   <PIN pinname="Tween To" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Duration" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Clear" visible="1">
-   </PIN>
-   <PIN pinname="EasingDirection" slicecount="1" values="InOut">
-   </PIN>
-   <PIN pinname="Tween From">
-   </PIN>
-   </NODE>
-   <NODE componentmode="InABox" id="31" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="1740" top="4110" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="480" left="1740" top="4110" type="Box" width="480">
-   </BOUNDS>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Slider Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Start">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="30" dstpinname="Start" srcnodeid="31" srcpinname="Y Output Value">
-   </LINK>
-   <NODE componentmode="Hidden" filename="ValueSimpleTweener.csproj" id="32" nodename="SimpleTweener (Value)" systemname="SimpleTweener (Value)">
-   <BOUNDS height="270" left="1920" top="6060" type="Node" width="1860">
-   </BOUNDS>
-   <PIN pinname="Start" visible="1">
-   </PIN>
-   <PIN pinname="Finished" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|On Start|">
-   </PIN>
-   <PIN pinname="Tween To" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Clear" visible="1">
-   </PIN>
-   </NODE>
-   <NODE componentmode="Hidden" filename="ValueSimpleTweener.csproj" id="33" nodename="SimpleTweener (Value)" systemname="SimpleTweener (Value)">
-   <BOUNDS height="270" left="1755" top="7980" type="Node" width="1860">
-   </BOUNDS>
-   <PIN pinname="Start" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|On Finish|">
-   </PIN>
-   <PIN pinname="Tween To" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Clear" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="32" dstpinname="Start" srcnodeid="30" srcpinname="Started">
-   </LINK>
-   <NODE componentmode="InABox" id="34" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="450" top="6165" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="240" left="450" top="6165" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="X">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="34" dstpinname="Y Input Value" srcnodeid="30" srcpinname="Output">
-   </LINK>
-   <NODE componentmode="InABox" id="35" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="1170" top="6960" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="240" left="1170" top="6960" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Y">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="35" dstpinname="Y Input Value" srcnodeid="32" srcpinname="Output">
-   </LINK>
-   <NODE componentmode="InABox" id="36" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="1005" top="8535" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="240" left="1005" top="8535" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Z">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="36" dstpinname="Y Input Value" srcnodeid="33" srcpinname="Output">
-   </LINK>
-   <LINK dstnodeid="33" dstpinname="Start" hiddenwhenlocked="1" linkstyle="Bezier" srcnodeid="30" srcpinname="Finished">
-   <LINKPOINT x="2130" y="6698">
-   </LINKPOINT>
-   <LINKPOINT x="2850" y="6698">
-   </LINKPOINT>
-   </LINK>
-   <NODE componentmode="InABox" id="37" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="2070" top="3120" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="480" left="2070" top="3120" type="Box" width="480">
-   </BOUNDS>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Slider Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Clear">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="30" dstpinname="Clear" srcnodeid="37" srcpinname="Y Output Value">
-   </LINK>
-   <LINK dstnodeid="32" dstpinname="Clear" hiddenwhenlocked="1" linkstyle="Bezier" srcnodeid="37" srcpinname="Y Output Value">
-   <LINKPOINT x="2640" y="4650">
-   </LINKPOINT>
-   <LINKPOINT x="3450" y="5010">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="33" dstpinname="Clear" hiddenwhenlocked="1" linkstyle="Bezier" srcnodeid="37" srcpinname="Y Output Value">
-   <LINKPOINT x="2610" y="5610">
-   </LINKPOINT>
-   <LINKPOINT x="3360" y="5970">
-   </LINKPOINT>
-   </LINK>
    <NODE componentmode="InABox" id="38" nodename="IOBox (String)" systemname="IOBox (String)">
    <BOUNDS height="270" left="12900" top="8925" type="Node" width="225">
    </BOUNDS>
@@ -456,232 +282,6 @@
    <PIN pinname="Show Grid" slicecount="1" values="0">
    </PIN>
    </NODE>
-   <NODE componentmode="Hidden" filename="ValueSimpleTweener.csproj" id="39" nodename="SimpleTweener (Value)" systemname="SimpleTweener (Value)">
-   <BOUNDS height="270" left="8250" top="6450" type="Node" width="2700">
-   </BOUNDS>
-   <PIN pinname="Tween To" visible="1">
-   </PIN>
-   <PIN pinname="Duration" visible="1">
-   </PIN>
-   <PIN pinname="Start" visible="1">
-   </PIN>
-   <PIN pinname="Started" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Clear" visible="1">
-   </PIN>
-   <PIN pinname="Finished" visible="1">
-   </PIN>
-   </NODE>
-   <NODE componentmode="InABox" id="40" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="8055" top="5250" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="720" left="8055" top="5250" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="3" values="1,2,3">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="|Tween To|">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="39" dstpinname="Tween To" srcnodeid="40" srcpinname="Y Output Value">
-   </LINK>
-   <NODE componentmode="InABox" id="41" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="9015" top="4320" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="720" left="9015" top="4320" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="3" values="1,2,3">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Duration">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="39" dstpinname="Duration" srcnodeid="41" srcpinname="Y Output Value">
-   </LINK>
-   <NODE componentmode="InABox" id="42" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="9585" top="5430" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="480" left="9585" top="5430" type="Box" width="480">
-   </BOUNDS>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Slider Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Start">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="39" dstpinname="Start" linkstyle="VHV" srcnodeid="42" srcpinname="Y Output Value">
-   <LINKPOINT x="10020" y="6180">
-   </LINKPOINT>
-   <LINKPOINT x="9870" y="6180">
-   </LINKPOINT>
-   </LINK>
-   <NODE componentmode="InABox" id="45" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="7500" top="7260" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="720" left="7500" top="7260" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Output">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="45" dstpinname="Y Input Value" srcnodeid="39" srcpinname="Output">
-   </LINK>
-   <NODE componentmode="InABox" id="47" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="10275" top="5430" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="480" left="10275" top="5430" type="Box" width="480">
-   </BOUNDS>
-   <PIN pinname="Show Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Show Slider" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Minimum" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Maximum" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Slider Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN pinname="Y Output Value" visible="1">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="0">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Clear">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="39" dstpinname="Clear" linkstyle="VHV" srcnodeid="47" srcpinname="Y Output Value">
-   <LINKPOINT x="10695" y="6180">
-   </LINKPOINT>
-   <LINKPOINT x="10410" y="6180">
-   </LINKPOINT>
-   </LINK>
-   <NODE componentmode="InABox" id="51" nodename="IOBox (String)" systemname="IOBox (String)">
-   <BOUNDS height="270" left="10980" top="5415" type="Node" width="630">
-   </BOUNDS>
-   <BOUNDS height="795" left="10980" top="5415" type="Box" width="2385">
-   </BOUNDS>
-   <PIN encoded="0" pinname="Input String" slicecount="1" visible="0" values="|SimpleTweener also is fully spreadable.|">
-   </PIN>
-   <PIN pinname="Output String" visible="0">
-   </PIN>
-   <PIN pinname="Show Grid" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Size" slicecount="1" values="9">
-   </PIN>
-   </NODE>
-   <NODE componentmode="InABox" id="52" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="8160" top="8280" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="720" left="8160" top="8280" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Rows" slicecount="1" values="3">
-   </PIN>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="Input">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Finished">
-   </PIN>
-   </NODE>
-   <NODE componentmode="InABox" id="55" nodename="IOBox (Value Advanced)" systemname="IOBOX (VALUE ADVANCED)">
-   <BOUNDS height="100" left="10170" top="8565" type="Node" width="100">
-   </BOUNDS>
-   <BOUNDS height="240" left="10170" top="8565" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" visible="1">
-   </PIN>
-   <PIN encoded="0" pinname="Descriptive Name" slicecount="1" values="Started">
-   </PIN>
-   </NODE>
-   <NODE componentmode="Hidden" id="57" nodename="Toggle (Animation)" systemname="Toggle (Animation)">
-   <BOUNDS height="100" left="8895" top="7500" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Reset" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="57" dstpinname="Input" linkstyle="VHV" srcnodeid="39" srcpinname="Finished">
-   <LINKPOINT x="9555" y="7103">
-   </LINKPOINT>
-   <LINKPOINT x="8955" y="7103">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="52" dstpinname="Y Input Value" srcnodeid="57" srcpinname="Output">
-   </LINK>
-   <NODE componentmode="Hidden" id="58" nodename="Toggle (Animation)" systemname="Toggle (Animation)">
-   <BOUNDS height="100" left="10905" top="7500" type="Node" width="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Reset" visible="1">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="58" dstpinname="Input" srcnodeid="39" srcpinname="Started">
-   </LINK>
-   <LINK dstnodeid="55" dstpinname="Y Input Value" srcnodeid="58" srcpinname="Output">
-   </LINK>
-   <LINK dstnodeid="57" dstpinname="Reset" hiddenwhenlocked="1" linkstyle="Bezier" srcnodeid="47" srcpinname="Y Output Value">
-   <LINKPOINT x="10680" y="6698">
-   </LINKPOINT>
-   <LINKPOINT x="9540" y="6698">
-   </LINKPOINT>
-   </LINK>
-   <LINK dstnodeid="58" dstpinname="Reset" hiddenwhenlocked="1" linkstyle="Bezier" srcnodeid="47" srcpinname="Y Output Value">
-   <LINKPOINT x="10740" y="6705">
-   </LINKPOINT>
-   <LINKPOINT x="11505" y="6705">
-   </LINKPOINT>
-   </LINK>
-   <NODE componentmode="InABox" id="60" nodename="IOBox (Value Advanced)" systemname="IOBox (Value Advanced)">
-   <BOUNDS height="0" left="1485" top="2610" type="Node" width="0">
-   </BOUNDS>
-   <BOUNDS height="240" left="1485" top="2610" type="Box" width="795">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" values="0.03">
-   </PIN>
-   <PIN encoded="0" pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   </NODE>
-   <LINK dstnodeid="30" dstpinname="Tween From" srcnodeid="60" srcpinname="Y Output Value">
-   </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="61" systemname="IOBox (Enumerations)">
    <BOUNDS type="Node" left="6675" top="975" width="0" height="0">
    </BOUNDS>
@@ -689,9 +289,27 @@
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" values="InOut">
    </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="EasingDirection" encoded="0">
+   <PIN pinname="Descriptive Name" slicecount="1" encoded="0" values="EasingDirection">
    </PIN>
    </NODE>
    <LINK srcnodeid="61" srcpinname="Output Enum" dstnodeid="0" dstpinname="EasingDirection">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="66">
+   <BOUNDS type="Node" left="1785" top="3765" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1785" top="3765" width="795" height="480">
+   </BOUNDS>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="2" values="5,222">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="66" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Tween To">
    </LINK>
    </PATCH>

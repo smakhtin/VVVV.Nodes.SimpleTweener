@@ -1,5 +1,7 @@
 #VVVV files
 *~.xml
+*.dll
+*.pdb
 
 #Visual Studio files
 *.[Oo]bj

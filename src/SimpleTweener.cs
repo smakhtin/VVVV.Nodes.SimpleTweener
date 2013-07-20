@@ -1,279 +1,245 @@
 #region usings
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 using VVVV.PluginInterfaces.V2;
+using VVVV.Utils.VMath;
+
 #endregion usings
 
 namespace VVVV.Nodes
 {
 	#region PluginInfo
-	[PluginInfo(Name = "SimpleTweener", Category = "Value", Help = "Basic template with one value in/out", Tags = "")]
+	[PluginInfo(Name = "SimpleTweener", Category = "Value", Help = "Tweens Values", Tags = "")]
 	#endregion PluginInfo
 	public class SimpleTweener : IPluginEvaluate
 	{
 		[Input("Tween To", DefaultValue = 0)]
-		ISpread<double> FTweenTo;
+		ISpread<ISpread<double>> FTweenToIn;
 		
 		[Input("Tween From", DefaultValue = 0)]
-		ISpread<double> FTweenFrom;
+		ISpread<double> FTweenFromIn;
 		
 		[Input("Duration", DefaultValue = 1.0)]
-		ISpread<double> FDuration;
+		ISpread<double> FDurationIn;
 		
 		[Input("Start", DefaultValue = 0, IsBang = true)]
-		ISpread<bool> FStartInput;
+		ISpread<bool> FStartInputIn;
 		
 		[Input("Clear", DefaultValue = 0, IsBang = true)]
-		ISpread<bool> FClear;
-		
-		[Input("EasingType", DefaultEnumEntry = "Linear")]
-		ISpread<EasingType> FEasing;
+		ISpread<bool> FClearIn;
+
+        [Input("EasingType", DefaultEnumEntry = "Elastic")]
+		ISpread<EasingType> FEasingTypeIn;
 		
 		[Input("EasingDirection", DefaultEnumEntry = "None")]
 		ISpread<EasingDirection> FEasingDirection;
 		
 		[Input("Wait For Tween End", DefaultValue = 1)]
-		ISpread<bool> FWaitForEnd;
+		ISpread<bool> FWaitForEndIn;
 
 		[Output("Output")]
 		ISpread<double> FOutput;
 		
 		[Output("Finished")]
-		ISpread<bool> FFinishedOutput;
+		ISpread<bool> FFinishedOut;
 		
 		[Output("Started")]
-		ISpread<bool> FStartedOutput;
+		ISpread<bool> FStartedOut;
 
-		readonly Spread<double> FValue;
-		readonly Spread<int> FStart;
+		private readonly Spread<double> FValue;
 
-		readonly Spread<double> FPreviousValue;
-		readonly Spread<double> FNextValue;
+		private readonly Spread<double> FPreviousValue;
+		private readonly Spread<double> FNextValue;
 
-		readonly Spread<bool> FFinished;
+	    private readonly Spread<int> FStep;
 
-		readonly Spread<DateTime> FStartDate;
-		
-		[ImportingConstructor]
+		private readonly Spread<DateTime> FStartDate;
+
+	    private readonly Dictionary<EasingDirection, Dictionary<EasingType, Func<double, double>>> FEasingByDirection;
+        
+        [ImportingConstructor]
 		public SimpleTweener()
 		{
-			FStart = new Spread<int>();
 			FValue = new Spread<double>();
+            FStep = new Spread<int>();
 			
 			FStartDate = new Spread<DateTime>();
 			
 			FPreviousValue = new Spread<double>();
 			FNextValue = new Spread<double>();
 			
-			FFinished = new Spread<bool>();
+            FEasingByDirection = new Dictionary<EasingDirection, Dictionary<EasingType, Func<double, double>>>();
+
+            FillEasings();
 		}
 
-		public void Evaluate(int spreadMax)
-		{
-			FOutput.SliceCount = spreadMax;
-			FFinished.SliceCount = spreadMax;
-			FStart.SliceCount = spreadMax;
-			FValue.SliceCount = spreadMax;
-			FStartDate.SliceCount = spreadMax;
-			FPreviousValue.SliceCount = spreadMax;
-			FNextValue.SliceCount = spreadMax;
+	    private void FillEasings()
+	    {
+	        FEasingByDirection.Add(EasingDirection.In, new Dictionary<EasingType, Func<double, double>>());
+            FEasingByDirection.Add(EasingDirection.InOut, new Dictionary<EasingType, Func<double, double>>());
+            FEasingByDirection.Add(EasingDirection.Out, new Dictionary<EasingType, Func<double, double>>());
+            FEasingByDirection.Add(EasingDirection.OutIn, new Dictionary<EasingType, Func<double, double>>());
 
-			FStartedOutput.SliceCount = spreadMax;
-			FFinishedOutput.SliceCount = spreadMax;
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Back, Tweener.BackEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Bounce, Tweener.BounceEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Circular, Tweener.CircularEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Cubic, Tweener.CubicEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Elastic, Tweener.ElasticEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Exponential, Tweener.ExponentialEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Quad, Tweener.QuadEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Quartic, Tweener.QuarticEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Quintic, Tweener.QuinticEaseIn);
+            FEasingByDirection[EasingDirection.In].Add(EasingType.Sinusoidal, Tweener.SinusoidalEaseIn);
+
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Back, Tweener.BackEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Bounce, Tweener.BounceEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Circular, Tweener.CircularEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Cubic, Tweener.CubicEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Elastic, Tweener.ElasticEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Exponential, Tweener.ExponentialEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Quad, Tweener.QuadEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Quartic, Tweener.QuarticEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Quintic, Tweener.QuinticEaseInOut);
+            FEasingByDirection[EasingDirection.InOut].Add(EasingType.Sinusoidal, Tweener.SinusoidalEaseInOut);
+
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Back, Tweener.BackEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Bounce, Tweener.BounceEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Circular, Tweener.CircularEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Cubic, Tweener.CubicEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Elastic, Tweener.ElasticEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Exponential, Tweener.ExponentialEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Quad, Tweener.QuadEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Quartic, Tweener.QuarticEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Quintic, Tweener.QuinticEaseOut);
+            FEasingByDirection[EasingDirection.Out].Add(EasingType.Sinusoidal, Tweener.SinusoidalEaseOut);
+
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Back, Tweener.BackEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Bounce, Tweener.BounceEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Circular, Tweener.CircularEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Cubic, Tweener.CubicEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Elastic, Tweener.ElasticEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Exponential, Tweener.ExponentialEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Quad, Tweener.QuadEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Quartic, Tweener.QuarticEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Quintic, Tweener.QuinticEaseOutIn);
+            FEasingByDirection[EasingDirection.OutIn].Add(EasingType.Sinusoidal, Tweener.SinusoidalEaseOutIn);
+	    }
+
+	    public void Evaluate(int spreadMax)
+	    {
+	        var sMax = Math.Max(FTweenToIn.SliceCount, FTweenFromIn.SliceCount);
+            FOutput.SliceCount = sMax;
+            FValue.SliceCount = sMax;
+            FStartDate.SliceCount = sMax;
+            FPreviousValue.SliceCount = sMax;
+            FNextValue.SliceCount = sMax;
+
+            FStartedOut.SliceCount = sMax;
+            FFinishedOut.SliceCount = sMax;
+
+            FStep.SliceCount = sMax;
 
 			for (var i = 0; i < spreadMax; i++)
 			{
-				FFinishedOutput[i] = false;
-				FStartedOutput[i] = false;
-				
 				var currentTime = DateTime.UtcNow;
 				
-				if(FStartInput[i])
+				if(FStartInputIn[i])
 				{
-					if(FStart[i] != 0 && FWaitForEnd[i]) return;
+					if(FStartedOut[i] && FWaitForEndIn[i]) return;
 					
-					FStart[i] = 1;
-					FStartDate[i] = currentTime;
+					FStartedOut[i] = true;
+                    FStartedOut[i] = true;
 					
+                    FStartDate[i] = currentTime;
 					FPreviousValue[i] = FValue[i];
-					FNextValue[i] = FTweenTo[i];
-					
-					FStartedOutput[i] = true;
+					FNextValue[i] = FTweenToIn[i][0];
 				}
 				
 				var timeInterval = currentTime - FStartDate[i];
-				var result = (timeInterval.TotalMilliseconds / (1000 * FDuration[i]));
-				// clamp result
-				result = Math.Max(0, Math.Min(result, 1));
+				var result = (timeInterval.TotalMilliseconds / (1000 * FDurationIn[i]));
+
+                // clamp result
+                result = Math.Max(0, Math.Min(result, 1));
+
+                if (Math.Abs(result - 1) < 0.00001 && FStartedOut[i])
+                {
+                    FStep[i]++;
+                    //next step
+                    if (FTweenToIn[i].SliceCount > FStep[i])
+                    {
+                        FStartDate[i] = currentTime;
+
+                        FPreviousValue[i] = FValue[i];
+                        FNextValue[i] = FTweenToIn[i][FStep[i]];
+                    }
+                    else
+                    {
+                        FStartedOut[i] = false;
+                        if (!FFinishedOut[i])
+                        {
+                            FFinishedOut[i] = true;
+                        } 
+                    }
+                }
 				
-				if (FStart[i] == 1)
+				if (FStartedOut[i])
 				{
-					FFinished[i] = false;
-					switch(FEasingDirection[i])
-					{
-						case EasingDirection.In:
-							result = Easing.EaseIn(result, FEasing[i]);
-							break;
-						case EasingDirection.Out:
-							result = Easing.EaseOut(result, FEasing[i]);
-							break;
-						case EasingDirection.InOut:
-							result = Easing.EaseInOut(result, FEasing[i]);
-							break;
-					}
+					FFinishedOut[i] = false;
+                    if (FEasingDirection[i] != EasingDirection.None)
+                    {
+                        var easingFunction = FEasingByDirection[FEasingDirection[i]][FEasingTypeIn[i]];
+                        result = easingFunction(result);
+                    }
+					
 					FValue[i] = FPreviousValue[i] * (1 - result) + result * FNextValue[i];
 				}
 				
-				if(Math.Abs(result - 1) < 0.00001){
-					FStart[i] = 0;
-					if(!FFinished[i])
-					{
-						FFinished[i] = true;
-						FFinishedOutput[i] = true;
-					}
-				}
-				
 				//clear tween
-				if(FClear[i])
+				if(FClearIn[i])
 				{
-					FStart[i] = 0;
-					FValue[i] = FTweenFrom[i];
+					FStartedOut[i] = false;
+				    FFinishedOut[i] = false;
+				    FStep[i] = 0;
+					FValue[i] = FTweenFromIn[i];
 				}
+
+                FFinishedOut[i] = FFinishedOut[i];
+                FStartedOut[i] = FStartedOut[i];
 			}
 			
-			//FStartedOutput.AssignFrom(FStartInput);
 			FOutput.AssignFrom(FValue);
 		}
 	}
-	
-	//external easing class
-	public static class Easing
-    {
-        // Adapted from source : http://www.robertpenner.com/easing/
-
-        public static float Ease(double linearStep, float acceleration, EasingType type)
-        {
-            float easedStep = acceleration > 0 ? EaseIn(linearStep, type) : 
-                              acceleration < 0 ? EaseOut(linearStep, type) : 
-                              (float) linearStep;
-
-            return MathHelper.Lerp(linearStep, easedStep, Math.Abs(acceleration));
-        }
-
-        public static float EaseIn(double linearStep, EasingType type)
-        {
-            switch (type)
-            {
-                case EasingType.Step:       return linearStep < 0.5 ? 0 : 1;
-                case EasingType.Linear:     return (float)linearStep;
-                case EasingType.Sine:       return Sine.EaseIn(linearStep);
-                case EasingType.Quadratic:  return Power.EaseIn(linearStep, 2);
-                case EasingType.Cubic:      return Power.EaseIn(linearStep, 3);
-                case EasingType.Quartic:    return Power.EaseIn(linearStep, 4);
-                case EasingType.Quintic:    return Power.EaseIn(linearStep, 5);
-            }
-			throw new NotImplementedException();
-        }
-
-        public static float EaseOut(double linearStep, EasingType type)
-        {
-            switch (type)
-            {
-                case EasingType.Step:       return linearStep < 0.5 ? 0 : 1;
-                case EasingType.Linear:     return (float)linearStep;
-                case EasingType.Sine:       return Sine.EaseOut(linearStep);
-                case EasingType.Quadratic:  return Power.EaseOut(linearStep, 2);
-                case EasingType.Cubic:      return Power.EaseOut(linearStep, 3);
-                case EasingType.Quartic:    return Power.EaseOut(linearStep, 4);
-                case EasingType.Quintic:    return Power.EaseOut(linearStep, 5);
-            }
-            throw new NotImplementedException();
-        }
-
-        public static float EaseInOut(double linearStep, EasingType easeInType, EasingType easeOutType)
-        {
-            return linearStep < 0.5 ? EaseInOut(linearStep, easeInType) : EaseInOut(linearStep, easeOutType);
-        }
-        public static float EaseInOut(double linearStep, EasingType type)
-        {
-            switch (type)
-            {
-                case EasingType.Step:       return linearStep < 0.5 ? 0 : 1;
-                case EasingType.Linear:     return (float)linearStep;
-                case EasingType.Sine:       return Sine.EaseInOut(linearStep);
-                case EasingType.Quadratic:  return Power.EaseInOut(linearStep, 2);
-                case EasingType.Cubic:      return Power.EaseInOut(linearStep, 3);
-                case EasingType.Quartic:    return Power.EaseInOut(linearStep, 4);
-                case EasingType.Quintic:    return Power.EaseInOut(linearStep, 5);
-            }
-            throw new NotImplementedException();
-        }
-
-        static class Sine
-        {
-            public static float EaseIn(double s)
-            {
-                return (float)Math.Sin(s * MathHelper.HalfPi - MathHelper.HalfPi) + 1;
-            }
-            public static float EaseOut(double s)
-            {
-                return (float)Math.Sin(s * MathHelper.HalfPi);
-            }
-            public static float EaseInOut(double s)
-            {
-                return (float)(Math.Sin(s * MathHelper.Pi - MathHelper.HalfPi) + 1) / 2;
-            }
-        }
-
-        static class Power
-        {
-            public static float EaseIn(double s, int power)
-            {
-                return (float)Math.Pow(s, power);
-            }
-            public static float EaseOut(double s, int power)
-            {
-                var sign = power % 2 == 0 ? -1 : 1;
-                return (float)(sign * (Math.Pow(s - 1, power) + sign));
-            }
-            public static float EaseInOut(double s, int power)
-            {
-                s *= 2;
-                if (s < 1) return EaseIn(s, power) / 2;
-                var sign = power % 2 == 0 ? -1 : 1;
-                return (float)(sign / 2.0 * (Math.Pow(s - 2, power) + sign * 2));
-            }
-        }
-    }
 
     public enum EasingType
     {
-        Step,
-        Linear,
-        Sine,
-        Quadratic,
+        Back,
+        Bounce,
+        Circular,
         Cubic,
+        Elastic,
+        Exponential,
+        Quad,
         Quartic,
-        Quintic
+        Quintic,
+        Sinusoidal
     }
 
     public enum EasingDirection
     {
     	None,
     	In,
-    	Out,
-    	InOut
+    	InOut,
+        Out,
+        OutIn
     }
-    
-    public static class MathHelper
-    {
-        public const float Pi = (float)Math.PI;
-        public const float HalfPi = (float)(Math.PI / 2);
 
-        public static float Lerp(double from, double to, double step)
-        {
-            return (float)((to - from) * step + from);
-        }
+    public enum Mode
+    {
+        None,
+        Bounce
     }
+
 }
